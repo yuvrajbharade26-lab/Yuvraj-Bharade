@@ -18,7 +18,10 @@ import {
   ClipboardCheck,
   Copy,
   ChevronRight,
-  Github
+  Github,
+  Brain,
+  BarChart3,
+  Code
 } from "lucide-react";
 
 import AIAgentSimulator from "./components/AIAgentSimulator";
@@ -26,86 +29,18 @@ import PatentPipeline from "./components/PatentPipeline";
 import ExperienceTimeline from "./components/ExperienceTimeline";
 import SkillMatrix from "./components/SkillMatrix";
 
-interface VisitorMessage {
-  id: string;
-  name: string;
-  email: string;
-  subject: string;
-  message: string;
-  timestamp: string;
-  status: "queued" | "routing" | "processed";
-}
-
 export default function App() {
-  const [messages, setMessages] = useState<VisitorMessage[]>([]);
   const [copiedText, setCopiedText] = useState<string | null>(null);
   
-  // Form states
-  const [formName, setFormName] = useState("");
-  const [formEmail, setFormEmail] = useState("");
-  const [formSubject, setFormSubject] = useState("");
-  const [formMessage, setFormMessage] = useState("");
-  const [formSubmitted, setFormSubmitted] = useState(false);
-
-  // Load message logs from local storage on mount
-  useEffect(() => {
-    const saved = localStorage.getItem("yuvraj_visitor_messages");
-    if (saved) {
-      try {
-        setMessages(JSON.parse(saved));
-      } catch (e) {
-        console.error(e);
-      }
-    }
-  }, []);
+  // Core Stronghold Tabs state
+  const [mlTab, setMlTab] = useState<"stack" | "impact">("stack");
+  const [webTab, setWebTab] = useState<"stack" | "impact">("stack");
+  const [dataTab, setDataTab] = useState<"stack" | "impact">("stack");
 
   const handleCopyContact = (text: string, label: string) => {
     navigator.clipboard.writeText(text);
     setCopiedText(label);
     setTimeout(() => setCopiedText(null), 2000);
-  };
-
-  const handleSendMessage = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!formName || !formEmail || !formMessage) return;
-
-    const newMsg: VisitorMessage = {
-      id: Date.now().toString(),
-      name: formName,
-      email: formEmail,
-      subject: formSubject || "General Opportunity Inquiry",
-      message: formMessage,
-      timestamp: new Date().toLocaleTimeString(undefined, { hour: "2-digit", minute: "2-digit" }),
-      status: "queued"
-    };
-
-    const updated = [newMsg, ...messages];
-    setMessages(updated);
-    localStorage.setItem("yuvraj_visitor_messages", JSON.stringify(updated));
-
-    // Reset Form
-    setFormName("");
-    setFormEmail("");
-    setFormSubject("");
-    setFormMessage("");
-    setFormSubmitted(true);
-
-    // Simulate Agent processing steps
-    setTimeout(() => {
-      setMessages((prev) => {
-        const next = prev.map((m) => (m.id === newMsg.id ? { ...m, status: "routing" as const } : m));
-        localStorage.setItem("yuvraj_visitor_messages", JSON.stringify(next));
-        return next;
-      });
-    }, 2500);
-
-    setTimeout(() => {
-      setMessages((prev) => {
-        const next = prev.map((m) => (m.id === newMsg.id ? { ...m, status: "processed" as const } : m));
-        localStorage.setItem("yuvraj_visitor_messages", JSON.stringify(next));
-        return next;
-      });
-    }, 6000);
   };
 
   return (
@@ -177,7 +112,7 @@ export default function App() {
                   {/* Status chip */}
                   <span className="text-[10px] font-mono text-brand-emerald bg-brand-emerald/10 border border-brand-emerald/20 px-3 py-1 rounded-full flex items-center gap-1.5 font-bold uppercase tracking-wider">
                     <span className="w-1.5 h-1.5 rounded-full bg-brand-emerald animate-ping"></span>
-                    Immediate Joiner
+                    Actively Exploring
                   </span>
                   <span className="text-[10px] font-mono text-slate-500 uppercase">
                     v1.4 Status Stable
@@ -192,7 +127,7 @@ export default function App() {
                     Yuvraj Nilesh Bharade
                   </h1>
                   <h2 className="text-base text-slate-400 font-sans tracking-wide">
-                    Innovative AI Engineer with 4.5 years of experience architecting cloud-native microservices, Agentic workflows, and sequential feature-extraction structures.
+                    Innovative AI Engineer specializing in cloud-native microservices, autonomous Agentic workflows, and persistent sequential feature-extraction models.
                   </h2>
                 </div>
 
@@ -200,8 +135,8 @@ export default function App() {
                 <div className="grid grid-cols-2 gap-4 bg-slate-950/60 p-4 rounded-xl border border-slate-900" id="hero-quick-data-box">
                   <div>
                     <span className="text-[10px] font-mono text-slate-500 uppercase block">EXPERIENCE RECORD</span>
-                    <span className="text-lg font-bold text-white font-display">4.5 Years</span>
-                    <span className="text-[10px] text-slate-400 block font-mono">Lead Consulting</span>
+                    <span className="text-lg font-bold text-white font-display">Lead Scale</span>
+                    <span className="text-[10px] text-slate-400 block font-mono">Cloud & ML Architecture</span>
                   </div>
                   <div>
                     <span className="text-[10px] font-mono text-slate-500 uppercase block">PATENT STATUS</span>
@@ -271,6 +206,378 @@ export default function App() {
           </div>
         </section>
 
+        {/* CORE TECHNICAL STRONGHOLDS TRIAD SECTION */}
+        <section id="strongholds-section" className="space-y-8 scroll-mt-20">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-3 border-b border-slate-800 pb-5">
+            <div>
+              <span className="text-xs font-mono text-brand-cyan uppercase tracking-widest">
+                Professional Triad
+              </span>
+              <h2 className="text-2xl md:text-3xl font-display font-medium text-white tracking-tight mt-1">
+                Core Technical Strongholds
+              </h2>
+            </div>
+            <p className="text-xs md:text-sm text-slate-400 max-w-md font-sans">
+              Forging advanced systems at the intersection of reactive client engineering, predictive analytics, and high-performance ML models.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            
+            {/* STRONGHOLD 1: ML & DL */}
+            <div className="bg-card-dark border border-border-dark hover:border-brand-cyan/40 rounded-2xl p-6 relative overflow-hidden transition-all duration-300 flex flex-col justify-between group shadow-[0_4px_20px_rgba(0,0,0,0.3)] hover:shadow-[0_0_25px_rgba(34,211,238,0.1)]" id="stronghold-ml-dl">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-brand-cyan/5 rounded-full blur-3xl group-hover:bg-brand-cyan/10 transition-all duration-300"></div>
+              <div className="space-y-6 relative z-10">
+                {/* Header detail */}
+                <div className="flex justify-between items-start">
+                  <div className="p-3 bg-brand-cyan/10 text-brand-cyan rounded-xl border border-brand-cyan/25">
+                    <Brain className="w-6 h-6" />
+                  </div>
+                  <span className="text-[10px] font-mono text-brand-cyan bg-brand-cyan/5 border border-brand-cyan/10 px-2 py-0.5 rounded uppercase font-bold tracking-wider">
+                    Deep Intelligence
+                  </span>
+                </div>
+
+                {/* Typography and brief */}
+                <div className="space-y-2">
+                  <h3 className="text-xl font-display font-semibold text-white tracking-tight">
+                    Machine Learning & DL
+                  </h3>
+                  <p className="text-xs text-slate-400 leading-relaxed font-sans">
+                    Designing custom deep networks, solving sequence-learning limitations, and implementing robust inference frameworks on enterprise cloud architectures.
+                  </p>
+                </div>
+
+                {/* Custom Interactive Switcher Tabs */}
+                <div className="flex border-b border-slate-800/80 p-0.5 bg-slate-950/40 rounded-lg">
+                  <button
+                    onClick={() => setMlTab("stack")}
+                    className={`flex-1 text-center py-1.5 text-[10px] uppercase tracking-wider font-mono font-semibold rounded-md transition-all cursor-pointer ${
+                      mlTab === "stack"
+                        ? "bg-brand-cyan/10 text-brand-cyan border border-brand-cyan/20"
+                        : "text-slate-400 hover:text-white"
+                    }`}
+                  >
+                    Tech Stack
+                  </button>
+                  <button
+                    onClick={() => setMlTab("impact")}
+                    className={`flex-1 text-center py-1.5 text-[10px] uppercase tracking-wider font-mono font-semibold rounded-md transition-all cursor-pointer ${
+                      mlTab === "impact"
+                        ? "bg-brand-cyan/10 text-brand-cyan border border-brand-cyan/20"
+                        : "text-slate-400 hover:text-white"
+                    }`}
+                  >
+                    Key Impacts
+                  </button>
+                </div>
+
+                {/* Tab content viewer */}
+                <div className="min-h-[140px] text-xs font-sans">
+                  <AnimatePresence mode="wait">
+                    {mlTab === "stack" ? (
+                      <motion.div
+                        key="ml-stack"
+                        initial={{ opacity: 0, y: 5 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -5 }}
+                        className="space-y-2.5"
+                      >
+                        <div className="grid grid-cols-2 gap-2">
+                          <div className="bg-slate-900/40 rounded p-2 border border-slate-900">
+                            <span className="text-[9px] font-mono text-slate-500 uppercase block">Models & Architectures</span>
+                            <span className="text-[11px] font-medium text-slate-300">Transformers, CNNs, Sequence RNNs, GANs</span>
+                          </div>
+                          <div className="bg-slate-900/40 rounded p-2 border border-slate-900">
+                            <span className="text-[9px] font-mono text-slate-500 uppercase block">Minds & Tools</span>
+                            <span className="text-[11px] font-medium text-slate-300">PyTorch, TensorFlow, HuggingFace, Keras</span>
+                          </div>
+                        </div>
+                        <div className="grid grid-cols-2 gap-2">
+                          <div className="bg-slate-900/40 rounded p-2 border border-slate-900">
+                            <span className="text-[9px] font-mono text-slate-500 uppercase block">Cloud & Inference</span>
+                            <span className="text-[11px] font-medium text-slate-300">AWS Bedrock, SageMaker, Deep Learning AMIs</span>
+                          </div>
+                          <div className="bg-slate-900/40 rounded p-2 border border-slate-900">
+                            <span className="text-[9px] font-mono text-slate-500 uppercase block">AI Agents</span>
+                            <span className="text-[11px] font-medium text-slate-300">MCP Servers, LangChain, Tool-Use Agents</span>
+                          </div>
+                        </div>
+                      </motion.div>
+                    ) : (
+                      <motion.div
+                        key="ml-impact"
+                        initial={{ opacity: 0, y: 5 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -5 }}
+                        className="space-y-2 text-[11px] text-slate-300 leading-relaxed font-sans"
+                      >
+                        <div className="flex items-start gap-1.5">
+                          <span className="text-brand-cyan mt-0.5">•</span>
+                          <p>
+                            <strong>Indian Patent Applied (2026):</strong> Solved catastrophic forgetting in streaming backprop systems via adaptive modular pipes.
+                          </p>
+                        </div>
+                        <div className="flex items-start gap-1.5">
+                          <span className="text-brand-cyan mt-0.5">•</span>
+                          <p>
+                            <strong>Conference Proceeding:</strong> First-author publication at SmartCom on Edge ConvNets for real-time mobile weed detection.
+                          </p>
+                        </div>
+                        <div className="flex items-start gap-1.5">
+                          <span className="text-brand-cyan mt-0.5">•</span>
+                          <p>
+                            <strong>Agent Integration:</strong> Programmed scalable autonomous agents managing API logs and telemetry queries.
+                          </p>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              </div>
+              <div className="border-t border-slate-900 pt-4 mt-4 flex items-center justify-between text-[11px] font-mono text-slate-500">
+                <span>Domain Focus</span>
+                <span className="text-brand-cyan">Advanced Neural Ops</span>
+              </div>
+            </div>
+
+            {/* STRONGHOLD 2: WEB DEVELOPMENT */}
+            <div className="bg-card-dark border border-border-dark hover:border-brand-emerald/40 rounded-2xl p-6 relative overflow-hidden transition-all duration-300 flex flex-col justify-between group shadow-[0_4px_20px_rgba(0,0,0,0.3)] hover:shadow-[0_0_25px_rgba(16,185,129,0.1)]" id="stronghold-web-dev">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-brand-emerald/5 rounded-full blur-3xl group-hover:bg-brand-emerald/10 transition-all duration-300"></div>
+              <div className="space-y-6 relative z-10">
+                {/* Header detail */}
+                <div className="flex justify-between items-start">
+                  <div className="p-3 bg-brand-emerald/10 text-brand-emerald rounded-xl border border-brand-emerald/25">
+                    <Code className="w-6 h-6" />
+                  </div>
+                  <span className="text-[10px] font-mono text-brand-emerald bg-brand-emerald/5 border border-brand-emerald/10 px-2 py-0.5 rounded uppercase font-bold tracking-wider">
+                    High Throughput
+                  </span>
+                </div>
+
+                {/* Typography and brief */}
+                <div className="space-y-2">
+                  <h3 className="text-xl font-display font-semibold text-white tracking-tight">
+                    Web Development & Architecture
+                  </h3>
+                  <p className="text-xs text-slate-400 leading-relaxed font-sans">
+                    Building robust Java Spring Boot microservices, high-performance backends, and highly responsive interactive web interfaces.
+                  </p>
+                </div>
+
+                {/* Custom Interactive Switcher Tabs */}
+                <div className="flex border-b border-slate-800/80 p-0.5 bg-slate-950/40 rounded-lg">
+                  <button
+                    onClick={() => setWebTab("stack")}
+                    className={`flex-1 text-center py-1.5 text-[10px] uppercase tracking-wider font-mono font-semibold rounded-md transition-all cursor-pointer ${
+                      webTab === "stack"
+                        ? "bg-brand-emerald/10 text-brand-emerald border border-brand-emerald/20"
+                        : "text-slate-400 hover:text-white"
+                    }`}
+                  >
+                    Tech Stack
+                  </button>
+                  <button
+                    onClick={() => setWebTab("impact")}
+                    className={`flex-1 text-center py-1.5 text-[10px] uppercase tracking-wider font-mono font-semibold rounded-md transition-all cursor-pointer ${
+                      webTab === "impact"
+                        ? "bg-brand-emerald/10 text-brand-emerald border border-brand-emerald/20"
+                        : "text-slate-400 hover:text-white"
+                    }`}
+                  >
+                    Key Impacts
+                  </button>
+                </div>
+
+                {/* Tab content viewer */}
+                <div className="min-h-[140px] text-xs font-sans">
+                  <AnimatePresence mode="wait">
+                    {webTab === "stack" ? (
+                      <motion.div
+                        key="web-stack"
+                        initial={{ opacity: 0, y: 5 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -5 }}
+                        className="space-y-2.5"
+                      >
+                        <div className="grid grid-cols-2 gap-2">
+                          <div className="bg-slate-900/40 rounded p-2 border border-slate-900">
+                            <span className="text-[9px] font-mono text-slate-500 uppercase block">Backend Ecosystem</span>
+                            <span className="text-[11px] font-medium text-slate-300">Java Spring Boot, Express Node, Python (FastAPI, Django)</span>
+                          </div>
+                          <div className="bg-slate-900/40 rounded p-2 border border-slate-900">
+                            <span className="text-[9px] font-mono text-slate-500 uppercase block">Interactive UI</span>
+                            <span className="text-[11px] font-medium text-slate-300">React, TypeScript, Tailwind CSS, motion animations</span>
+                          </div>
+                        </div>
+                        <div className="grid grid-cols-2 gap-2">
+                          <div className="bg-slate-900/40 rounded p-2 border border-slate-900">
+                            <span className="text-[9px] font-mono text-slate-500 uppercase block">Distributed Arch</span>
+                            <span className="text-[11px] font-medium text-slate-300">RESTful APIs, RPC, WebSocket Streams, SSE Conduits</span>
+                          </div>
+                          <div className="bg-slate-900/40 rounded p-2 border border-slate-900">
+                            <span className="text-[9px] font-mono text-slate-500 uppercase block">Infrastructure</span>
+                            <span className="text-[11px] font-medium text-slate-300">Docker, AWS ECS/EC2, Nginx, Linux Containers</span>
+                          </div>
+                        </div>
+                      </motion.div>
+                    ) : (
+                      <motion.div
+                        key="web-impact"
+                        initial={{ opacity: 0, y: 5 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -5 }}
+                        className="space-y-2 text-[11px] text-slate-300 leading-relaxed font-sans"
+                      >
+                        <div className="flex items-start gap-1.5">
+                          <span className="text-brand-emerald mt-0.5">•</span>
+                          <p>
+                            <strong>Sub-50ms Microservices:</strong> Deployed highly responsive spring-boot gateways configured with optimized database connection pools.
+                          </p>
+                        </div>
+                        <div className="flex items-start gap-1.5">
+                          <span className="text-brand-emerald mt-0.5">•</span>
+                          <p>
+                            <strong>Reactive Portfolios:</strong> Built modern web terminals simulating Model-Context Protocol environments with robust real-time updates.
+                          </p>
+                        </div>
+                        <div className="flex items-start gap-1.5">
+                          <span className="text-brand-emerald mt-0.5">•</span>
+                          <p>
+                            <strong>Cloud Native Delivery:</strong> Leveraged Dockerized pipelines to deploy fault-tolerant, autoscale-ready container architectures.
+                          </p>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              </div>
+              <div className="border-t border-slate-900 pt-4 mt-4 flex items-center justify-between text-[11px] font-mono text-slate-500">
+                <span>Domain Focus</span>
+                <span className="text-brand-emerald">Systems & Client Delivery</span>
+              </div>
+            </div>
+
+            {/* STRONGHOLD 3: DATA ANALYTICS & BIG DATA */}
+            <div className="bg-card-dark border border-border-dark hover:border-brand-purple/40 rounded-2xl p-6 relative overflow-hidden transition-all duration-300 flex flex-col justify-between group shadow-[0_4px_20px_rgba(0,0,0,0.3)] hover:shadow-[0_0_25px_rgba(168,85,247,0.1)]" id="stronghold-data-analytics">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-brand-purple/5 rounded-full blur-3xl group-hover:bg-brand-purple/10 transition-all duration-300"></div>
+              <div className="space-y-6 relative z-10">
+                {/* Header detail */}
+                <div className="flex justify-between items-start">
+                  <div className="p-3 bg-brand-purple/10 text-brand-purple rounded-xl border border-brand-purple/25">
+                    <BarChart3 className="w-6 h-6" />
+                  </div>
+                  <span className="text-[10px] font-mono text-brand-purple bg-brand-purple/5 border border-brand-purple/10 px-2 py-0.5 rounded uppercase font-bold tracking-wider">
+                    Advanced Insights
+                  </span>
+                </div>
+
+                {/* Typography and brief */}
+                <div className="space-y-2">
+                  <h3 className="text-xl font-display font-semibold text-white tracking-tight">
+                    Data Science & Analytics
+                  </h3>
+                  <p className="text-xs text-slate-400 leading-relaxed font-sans">
+                    Constructing low-latency ETL conduits, consolidating disparate enterprise streams, and deriving high-fidelity predictive indicators.
+                  </p>
+                </div>
+
+                {/* Custom Interactive Switcher Tabs */}
+                <div className="flex border-b border-slate-800/80 p-0.5 bg-slate-950/40 rounded-lg">
+                  <button
+                    onClick={() => setDataTab("stack")}
+                    className={`flex-1 text-center py-1.5 text-[10px] uppercase tracking-wider font-mono font-semibold rounded-md transition-all cursor-pointer ${
+                      dataTab === "stack"
+                        ? "bg-brand-purple/10 text-brand-purple border border-brand-purple/20"
+                        : "text-slate-400 hover:text-white"
+                    }`}
+                  >
+                    Tech Stack
+                  </button>
+                  <button
+                    onClick={() => setDataTab("impact")}
+                    className={`flex-1 text-center py-1.5 text-[10px] uppercase tracking-wider font-mono font-semibold rounded-md transition-all cursor-pointer ${
+                      dataTab === "impact"
+                        ? "bg-brand-purple/10 text-brand-purple border border-brand-purple/20"
+                        : "text-slate-400 hover:text-white"
+                    }`}
+                  >
+                    Key Impacts
+                  </button>
+                </div>
+
+                {/* Tab content viewer */}
+                <div className="min-h-[140px] text-xs font-sans">
+                  <AnimatePresence mode="wait">
+                    {dataTab === "stack" ? (
+                      <motion.div
+                        key="data-stack"
+                        initial={{ opacity: 0, y: 5 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -5 }}
+                        className="space-y-2.5"
+                      >
+                        <div className="grid grid-cols-2 gap-2">
+                          <div className="bg-slate-900/40 rounded p-2 border border-slate-900">
+                            <span className="text-[9px] font-mono text-slate-500 uppercase block">Data Analysis</span>
+                            <span className="text-[11px] font-medium text-slate-300">Pandas, NumPy, Scikit-Learn, SciPy Stats</span>
+                          </div>
+                          <div className="bg-slate-900/40 rounded p-2 border border-slate-900">
+                            <span className="text-[9px] font-mono text-slate-500 uppercase block">Databases & Lakes</span>
+                            <span className="text-[11px] font-medium text-slate-300">PostgreSQL, Firestore, BigQuery, AWS S3/Glacier</span>
+                          </div>
+                        </div>
+                        <div className="grid grid-cols-2 gap-2">
+                          <div className="bg-slate-900/40 rounded p-2 border border-slate-900">
+                            <span className="text-[9px] font-mono text-slate-500 uppercase block">Metric Visuals</span>
+                            <span className="text-[11px] font-medium text-slate-300">Recharts, D3.js Charts, Power BI, Seaborn</span>
+                          </div>
+                          <div className="bg-slate-900/40 rounded p-2 border border-slate-900">
+                            <span className="text-[9px] font-mono text-slate-500 uppercase block">Pipelines</span>
+                            <span className="text-[11px] font-medium text-slate-300">ETL scripts, AWS Data Pipeline, SQS queues</span>
+                          </div>
+                        </div>
+                      </motion.div>
+                    ) : (
+                      <motion.div
+                        key="data-impact"
+                        initial={{ opacity: 0, y: 5 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -5 }}
+                        className="space-y-2 text-[11px] text-slate-300 leading-relaxed font-sans"
+                      >
+                        <div className="flex items-start gap-1.5">
+                          <span className="text-brand-purple mt-0.5">•</span>
+                          <p>
+                            <strong>Abolished Data Silos:</strong> Extracted, cleaned, and unified sequential enterprise database schemas into structured JSON/CSV repositories.
+                          </p>
+                        </div>
+                        <div className="flex items-start gap-1.5">
+                          <span className="text-brand-purple mt-0.5">•</span>
+                          <p>
+                            <strong>Latency Analytics Models:</strong> Visualized performance metrics, mapping synaptic drift parameters against model retention rates.
+                          </p>
+                        </div>
+                        <div className="flex items-start gap-1.5">
+                          <span className="text-brand-purple mt-0.5">•</span>
+                          <p>
+                            <strong>Sub-second Dashboard Indexes:</strong> Optimized analytical rendering of dataset tables handling hundreds of thousands of samples.
+                          </p>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              </div>
+              <div className="border-t border-slate-900 pt-4 mt-4 flex items-center justify-between text-[11px] font-mono text-slate-500">
+                <span>Domain Focus</span>
+                <span className="text-brand-purple">Predictive Science & Pipelines</span>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
         {/* INTERACTIVE PATENT & PUBLICATIONS BLOCK */}
         <section id="patent-section" className="space-y-8 scroll-mt-20">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-3 border-b border-slate-800 pb-5">
@@ -334,7 +641,7 @@ export default function App() {
               </h2>
             </div>
             <p className="text-xs md:text-sm text-slate-400 max-w-md font-sans">
-              4.5 years of consistent AI consulting and systems engineering solving microservice latency and model deployment barriers.
+              Dedicated track record of high-performance AI consulting and systems engineering solving microservice latency and model deployment barriers.
             </p>
           </div>
 
@@ -470,7 +777,7 @@ export default function App() {
                     Book Introduction
                   </h3>
                   <p className="text-xs text-slate-400 font-sans mt-1">
-                    Yuvraj is an immediate joiner and validates critical logistics quickly. Use direct points or the interactive simulator route.
+                    Yuvraj is ready to collaborate and validates critical logistics quickly. Use direct points or the interactive simulator route.
                   </p>
                 </div>
 
@@ -537,161 +844,136 @@ export default function App() {
 
               {/* Additional verification metrics */}
               <div className="border-t border-slate-900 pt-5 mt-6 flex justify-between items-center text-[10px] font-mono text-slate-500">
-                <span>UAN STATUS: VALIDATED</span>
-                <span>NOTICE PERIOD: IMMEDIATE</span>
+                <span>PORTFOLIO: PRODUCTION READY</span>
+                <span>STATUS: ACTIVE NOW</span>
               </div>
             </div>
 
-            {/* Offline Message persistence portal: right */}
-            <div className="lg:col-span-7 border border-border-dark bg-card-dark rounded-2xl p-6 md:p-8 flex flex-col justify-between" id="visitor-messages-portal">
+            {/* Professional Engagement & SLA Protocols Card: right */}
+            <div className="lg:col-span-7 border border-border-dark bg-card-dark rounded-2xl p-6 md:p-8 flex flex-col justify-between" id="engagement-protocols-portal">
               <div className="space-y-6">
                 
                 <div className="flex justify-between items-start">
                   <div>
-                    <span className="text-xs font-mono text-brand-cyan uppercase tracking-widest flex items-center gap-1">
-                      <Sparkles className="w-3.5 h-3.5 text-brand-cyan" /> Secure Dispatch Box
+                    <span className="text-xs font-mono text-brand-emerald uppercase tracking-widest flex items-center gap-1">
+                      <Sparkles className="w-3.5 h-3.5 text-brand-emerald" /> Operational SLA & Direct Connect
                     </span>
                     <h3 className="text-lg md:text-xl font-display font-medium text-white tracking-tight mt-0.5">
-                      Send a Message to Yuvraj
+                      Professional Reach-Out protocols
                     </h3>
                   </div>
                 </div>
 
-                {formSubmitted ? (
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.98 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    className="bg-brand-cyan/5 border border-brand-cyan/20 rounded-xl p-6 text-center space-y-4"
-                  >
-                    <div className="w-12 h-12 rounded-full bg-brand-cyan/10 border border-brand-cyan/20 flex items-center justify-center text-brand-cyan mx-auto">
-                      <CheckCircle2 className="w-6 h-6 animate-pulse" />
+                {/* Grid of SLA specs */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="bg-slate-950/50 border border-slate-900 p-4 rounded-xl space-y-2">
+                    <div className="flex items-center gap-2 text-brand-cyan font-mono text-[10px] uppercase font-bold tracking-wider">
+                      <Zap className="w-3.5 h-3.5" /> High-Performance Delivery
                     </div>
-                    <div className="space-y-1">
-                      <h4 className="text-white font-semibold font-display">Message Transmitted!</h4>
-                      <p className="text-xs text-slate-400 max-w-sm mx-auto leading-relaxed">
-                        Your message has been filed into local browser state storage logs. Watch the live simulated routing pipeline updates below!
-                      </p>
-                    </div>
-                    <button
-                      onClick={() => setFormSubmitted(false)}
-                      className="text-xs text-brand-cyan font-mono hover:underline"
-                    >
-                      Send Another Message
-                    </button>
-                  </motion.div>
-                ) : (
-                  <form onSubmit={handleSendMessage} className="space-y-4" id="visitor-contact-form">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      <div>
-                        <label className="block text-[10px] font-mono text-slate-500 uppercase mb-1.5 font-semibold">
-                          Your Name / Enterprise <span className="text-brand-cyan">*</span>
-                        </label>
-                        <input
-                          type="text"
-                          required
-                          value={formName}
-                          onChange={(e) => setFormName(e.target.value)}
-                          placeholder="John Doe from Acme Corp"
-                          className="w-full bg-slate-950 border border-slate-900 focus:border-brand-cyan/60 rounded-lg p-2.5 text-xs text-white placeholder:text-slate-600 outline-none transition-colors"
-                          id="input-form-name"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-[10px] font-mono text-slate-500 uppercase mb-1.5 font-semibold">
-                          Your Email ID <span className="text-brand-cyan">*</span>
-                        </label>
-                        <input
-                          type="email"
-                          required
-                          value={formEmail}
-                          onChange={(e) => setFormEmail(e.target.value)}
-                          placeholder="john.doe@company.com"
-                          className="w-full bg-slate-950 border border-slate-900 focus:border-brand-cyan/60 rounded-lg p-2.5 text-xs text-white placeholder:text-slate-600 outline-none transition-colors"
-                          id="input-form-email"
-                        />
-                      </div>
-                    </div>
+                    <p className="text-xs text-slate-300 leading-relaxed font-sans">
+                      Delivering sub-50ms latency microservice architectures, clean type-safe structures, and production-ready enterprise integrations.
+                    </p>
+                  </div>
 
-                    <div>
-                      <label className="block text-[10px] font-mono text-slate-500 uppercase mb-1.5 font-semibold">
-                        Subject / Focus
-                      </label>
-                      <input
-                        type="text"
-                        value={formSubject}
-                        onChange={(e) => setFormSubject(e.target.value)}
-                        placeholder="e.g. Lead AI Engineering Position"
-                        className="w-full bg-slate-950 border border-slate-900 focus:border-brand-cyan/60 rounded-lg p-2.5 text-xs text-white placeholder:text-slate-600 outline-none transition-colors"
-                        id="input-form-subj"
-                      />
+                  <div className="bg-slate-950/50 border border-slate-900 p-4 rounded-xl space-y-2">
+                    <div className="flex items-center gap-2 text-brand-emerald font-mono text-[10px] uppercase font-bold tracking-wider">
+                      <Brain className="w-3.5 h-3.5" /> Intelligent Orchestration
                     </div>
+                    <p className="text-xs text-slate-300 leading-relaxed font-sans">
+                      Deploying custom Agentic workflows, model context protocols, and high-fidelity sequence feature-extraction pipelines.
+                    </p>
+                  </div>
+                </div>
 
-                    <div>
-                      <label className="block text-[10px] font-mono text-slate-500 uppercase mb-1.5 font-semibold">
-                        Detailed Message <span className="text-brand-cyan">*</span>
-                      </label>
-                      <textarea
-                        required
-                        value={formMessage}
-                        onChange={(e) => setFormMessage(e.target.value)}
-                        rows={3}
-                        placeholder="Describe your project, contract timeline, or open role requirements..."
-                        className="w-full bg-slate-950 border border-slate-900 focus:border-brand-cyan/60 rounded-lg p-2.5 text-xs text-white placeholder:text-slate-600 outline-none resize-none transition-colors"
-                        id="input-form-msg"
-                      />
-                    </div>
-
-                    <button
-                      type="submit"
-                      className="w-full bg-brand-cyan text-slate-950 text-xs font-mono font-medium py-2.5 px-4 rounded-lg flex items-center justify-center gap-2 hover:bg-cyan-300 transition-colors shadow-[0_0_15px_rgba(34,211,238,0.15)] cursor-pointer"
-                      id="btn-submit-contact"
-                    >
-                      <Send className="w-3.5 h-3.5" />
-                      Transmit message to pipeline
-                    </button>
-                  </form>
-                )}
-
-                {/* Simulated live transmission feed */}
-                <div className="border-t border-slate-900 pt-5 mt-6" id="visitor-messages-log">
-                  <span className="text-[10px] font-mono text-slate-500 uppercase tracking-wider block mb-3">
-                    Active Transmission Queue Logs ({messages.length})
+                <div className="bg-slate-950/30 border border-slate-900/60 rounded-xl p-5 space-y-4">
+                  <span className="text-[10px] font-mono text-slate-500 uppercase tracking-widest block font-bold">
+                    Direct Interaction Handles
                   </span>
-                  
-                  {messages.length === 0 ? (
-                    <div className="text-center py-6 text-xs text-slate-500 font-mono bg-slate-950/20 border border-dashed border-slate-900 rounded-xl" id="empty-queue-msg">
-                      <span>Log is currently empty. Send a message to seed the simulated local queue pipeline!</span>
-                    </div>
-                  ) : (
-                    <div className="space-y-2 max-h-[140px] overflow-y-auto pr-1" id="message-logs-container">
-                      {messages.map((m) => (
-                        <div key={m.id} className="text-xs bg-slate-950/80 border border-slate-900 p-3 rounded-lg flex justify-between items-center gap-3">
-                          <div className="truncate flex-1">
-                            <span className="font-bold text-slate-300 font-display block truncate leading-tight">
-                              {m.subject}
-                            </span>
-                            <span className="text-[10px] font-mono text-slate-500 block truncate mt-0.5">
-                              From: {m.name} | {m.email}
-                            </span>
+
+                  <div className="space-y-3">
+                    {/* LinkedIn button */}
+                    <a
+                      href="https://linkedin.com/in/yuvraj-bharade-profile-link/"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="flex items-center justify-between p-3 bg-slate-950 border border-slate-900 hover:border-brand-cyan/40 hover:bg-slate-900/40 rounded-xl group transition-all"
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className="p-1.5 bg-brand-cyan/10 rounded text-brand-cyan">
+                          <Linkedin className="w-4 h-4" />
+                        </div>
+                        <span className="text-xs font-sans text-slate-200 group-hover:text-white transition-colors">
+                          Yuvraj's Professional LinkedIn Profile
+                        </span>
+                      </div>
+                      <ArrowUpRight className="w-4 h-4 text-slate-500 group-hover:text-brand-cyan transition-colors" />
+                    </a>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      {/* Copy Email Button */}
+                      <button
+                        onClick={() => handleCopyContact("yuvrajbharade26@gmail.com", "email")}
+                        className="flex items-center justify-between p-3 bg-slate-950 border border-slate-900 hover:border-brand-emerald/40 hover:bg-slate-900/40 rounded-xl group transition-all cursor-pointer text-left w-full"
+                      >
+                        <div className="flex items-center gap-2.5">
+                          <div className="p-1.5 bg-brand-emerald/10 rounded text-brand-emerald">
+                            <Mail className="w-3.5 h-3.5" />
                           </div>
-                          
-                          <div className="flex items-center gap-2 shrink-0 select-none">
-                            <span className="text-[10px] font-mono text-slate-400">{m.timestamp}</span>
-                            <span className={`text-[9px] font-mono font-bold px-2 py-0.5 rounded ${
-                              m.status === "queued" 
-                                ? "bg-amber-500/10 text-amber-400 border border-amber-500/20" 
-                                : m.status === "routing"
-                                ? "bg-brand-cyan/10 text-brand-cyan border border-brand-cyan/20"
-                                : "bg-brand-emerald/10 text-brand-emerald border border-brand-emerald/20"
-                            }`}>
-                              {m.status.toUpperCase()}
+                          <div>
+                            <span className="text-[9px] font-mono text-slate-500 block uppercase">COPIABLE EMAIL ID</span>
+                            <span className="text-[11px] font-mono text-slate-300 group-hover:text-white">
+                              yuvrajbharade26@gmail.com
                             </span>
                           </div>
                         </div>
-                      ))}
+                        <div>
+                          {copiedText === "email" ? (
+                            <ClipboardCheck className="w-3.5 h-3.5 text-brand-emerald" />
+                          ) : (
+                            <Copy className="w-3.5 h-3.5 text-slate-500 group-hover:text-brand-emerald transition-colors" />
+                          )}
+                        </div>
+                      </button>
+
+                      {/* Copy Phone Button */}
+                      <button
+                        onClick={() => handleCopyContact("+917666798673", "phone")}
+                        className="flex items-center justify-between p-3 bg-slate-950 border border-slate-900 hover:border-brand-purple/40 hover:bg-slate-900/40 rounded-xl group transition-all cursor-pointer text-left w-full"
+                      >
+                        <div className="flex items-center gap-2.5">
+                          <div className="p-1.5 bg-brand-purple/10 rounded text-brand-purple">
+                            <Phone className="w-3.5 h-3.5" />
+                          </div>
+                          <div>
+                            <span className="text-[9px] font-mono text-slate-500 block uppercase">Direct Cell Number</span>
+                            <span className="text-[11px] font-mono text-slate-300 group-hover:text-white">
+                              +91 7666798673
+                            </span>
+                          </div>
+                        </div>
+                        <div>
+                          {copiedText === "phone" ? (
+                            <ClipboardCheck className="w-3.5 h-3.5 text-brand-purple" />
+                          ) : (
+                            <Copy className="w-3.5 h-3.5 text-slate-500 group-hover:text-brand-purple transition-colors" />
+                          )}
+                        </div>
+                      </button>
+                    </div>
+                  </div>
+
+                  {copiedText && (
+                    <div className="text-center pt-1 animate-pulse">
+                      <span className="text-[10px] font-mono text-brand-emerald uppercase font-bold">
+                        ✓ Copied to clipboard for immediate use
+                      </span>
                     </div>
                   )}
                 </div>
+
+                <p className="text-[10.5px] text-slate-500 leading-relaxed text-center font-sans">
+                  Available for remote positions worldwide and relocations to Indian/Global hubs. Fully aligned to coordinate with US, EMEA, and APAC development timelines on demand.
+                </p>
 
               </div>
             </div>
@@ -708,7 +990,6 @@ export default function App() {
             <span>© 2026 Yuvraj Nilesh Bharade. All Rights Reserved.</span>
           </div>
           <div className="flex items-center gap-5">
-            <span>UAN Validated</span>
             <span>✓ Host Connection Stable</span>
             <a
               href="https://linkedin.com/in/yuvraj-bharade-profile-link/"

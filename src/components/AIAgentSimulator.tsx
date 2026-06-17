@@ -76,7 +76,7 @@ export default function AIAgentSimulator() {
           text: `
 <div class="font-mono text-slate-300 leading-relaxed">
   <span class="text-white font-bold block mb-1">Yuvraj Nilesh Bharade | AI Engineer & AWS Specialist</span>
-  4.5 years of industry experience specializing in Cloud-native ecosystems, Agentic AI, and LLMOps. 
+  Experienced AI Engineer specializing in Cloud-native ecosystems, Agentic AI, and LLMOps. 
   Expert at scaling systems with AWS Bedrock / SageMaker, building high-throughput microservices using Java Spring Boot, 
   and researching custom deep learning solutions to bridge corporate data silos.
 </div>`,
@@ -167,9 +167,8 @@ export default function AIAgentSimulator() {
         newLines.push({
           text: `
 <div class="font-mono text-slate-300">
-  <div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-brand-emerald animate-ping"></span> <span class="font-bold text-white">Notice Period:</span> <span class="text-brand-emerald">Immediate Joiner</span></div>
-  <div class="mt-1 font-semibold text-slate-300">Available to start work right away.</div>
-  <div class="mt-1"><span class="font-bold text-white">UAN Status:</span> Fully Validated and Clear.</div>
+  <div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-brand-emerald animate-ping"></span> <span class="font-bold text-white">Status:</span> <span class="text-brand-emerald">Actively Exploring</span></div>
+  <div class="mt-1 font-semibold text-slate-300">Available to discuss open roles and consultations.</div>
 </div>`,
           type: "output",
           isHtml: true,

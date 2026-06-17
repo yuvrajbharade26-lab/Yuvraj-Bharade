@@ -29,7 +29,7 @@ export default function ExperienceTimeline() {
       id: "adaptive",
       role: "AI Engineer & Lead Consultant",
       company: "Adaptive Systems Solutions",
-      period: "4.5 Years of Professional Experience",
+      period: "Proven Industry Record",
       location: "Pune, Maharashtra",
       badge: "Lead Architect",
       summary: "Specialized in cloud-native Generative AI pipelines, autonomous model orchestration, full-stack microservice backends, and stakeholder strategy consultant workflows.",
